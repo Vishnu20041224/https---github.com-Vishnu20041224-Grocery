@@ -508,7 +508,7 @@ function createFeaturedProducts(featuredProductsData) {
                                     <p class="FPdicount m-0">₹${featuredProduct.mrp}</p>
                                 </div>
                                 <div class="addToCartFP">
-                                    <button class="addToCartFP"><img class="addToCartFP" src="/Assets/featured products/shopping-cart.png" alt="">Add</button>
+                                    <button class="addToCartFP"><img class="addToCartFP2" src="/Assets/featured products/shopping-cart.png" alt="">Add</button>
                                 </div>
                             </div>
                         </div>
@@ -757,8 +757,8 @@ function createdDailySells(dailyBestSellsData) {
                     <span class="DBSdiscount">₹${dailyBestSells.mrp}</span>
                 </div>
                 <button class="addToCart">
-                    <img src="/Assets/Daily Best Sells/shopping-cart.png" alt="">
-                    <span>Add to Cart</span>
+                    <img class="addToCart2" src="/Assets/Daily Best Sells/shopping-cart.png" alt="">
+                    <span class="addToCart2">Add to Cart</span>
                 </button>
                 <div class="DBSsave">
                     Save ${dailyBestSells.save}%
@@ -810,7 +810,68 @@ function addToCartinContainer() {
     dailyBestSellsAllProduct.addEventListener("click", (e) => {
 
         if (e.target.classList.contains("addToCart")) {
+
             let DBSproduct = e.target.parentElement
+            let dbsProductImg = DBSproduct.querySelector(".dbsImg")
+            // let dbsProductImg = dbsProductImgTag.src
+            let dbsProductCatagory = DBSproduct.querySelector(".dbsCatagory")
+            let dbsProductName = DBSproduct.querySelector(".dbsName")
+            let dbsProductRate = DBSproduct.querySelector(".DBSprice")
+
+            let DBSproductObj = {
+                name: dbsProductName.innerHTML,
+                rate: dbsProductRate.innerHTML,
+                img: dbsProductImg.src,
+                catagory: dbsProductCatagory.innerHTML,
+                count: 1,
+            }
+
+            let allReady = DBSproductArray.some((item) => item.name === DBSproductObj.name)
+
+            if (allReady) {
+                alert("All Ready Have in Add to Cart")
+            }
+            else {
+                DBSproductArray.push(DBSproductObj)
+                // add to cart container creat element 
+                let div = document.createElement("div")
+                div.className = "addToCart d-flex gap-2 align-items-center"
+                div.innerHTML = `
+                <div> <img
+                src="${DBSproductObj.img}"
+                alt=""></div>
+                <div>
+                <h5 class="addName">${DBSproductObj.name}</h5>
+                <span class="addCatergory">${DBSproductObj.catagory}</span>
+                <div class="d-flex justify-content-between">
+                <div class="d-flex gap-2 align-items-center">
+                <input class="addCount" type="text" value="${DBSproductObj.count}" min="1" max="5">
+                <div>
+                <button class="incress">+</button>
+                <button class="decress">-</button>
+                </div>
+                </div>
+                <p class="addAmount" data-price ="${DBSproductObj.rate}">${DBSproductObj.rate}</p>
+                </div>
+                <i class="addRemove fa-solid fa-trash" style="color: #ff0000;"></i>
+                </div>`
+                addToCartContainer.append(div)
+
+                // total amount
+                let cartAmounts = document.querySelectorAll(".addToCartContainer .addAmount")
+                let totalAmt = 0
+                cartAmounts.forEach((cartAmt) => {
+                    let amount = cartAmt.innerHTML.replace("₹", "")
+                    totalAmt += parseInt(amount)
+                })
+                let cartAmount = document.querySelector(".cartAmount")
+                cartAmount.innerHTML = `₹ ${totalAmt}`
+            }
+
+        }
+        else if (e.target.classList.contains("addToCart2")) {
+
+            let DBSproduct = e.target.parentElement.parentElement
             let dbsProductImg = DBSproduct.querySelector(".dbsImg")
             // let dbsProductImg = dbsProductImgTag.src
             let dbsProductCatagory = DBSproduct.querySelector(".dbsCatagory")
@@ -943,6 +1004,71 @@ function addToCartinContainer() {
             addTocartCount.innerHTML = Number(addTocartLength)
 
         }
+        else if (e.target.classList.contains("addToCartFP2")) {
+            let div = e.target.parentElement.parentElement.parentElement.parentElement.parentElement
+
+            let fpName = div.querySelector(".fdName")
+            let fpRate = div.querySelector(".fdRate")
+            let fpimg = div.querySelector(".fdImg")
+            let fpCatagory = div.querySelector(".fdCatagory")
+
+            let DBSproductObj = {
+                name: fpName.innerHTML,
+                rate: fpRate.innerHTML,
+                img: fpimg.src,
+                catagory: fpCatagory.innerHTML,
+                count: 1,
+            }
+
+            // console.log(DBSproductObj);
+            let allReady = DBSproductArray.some((item) => item.name === DBSproductObj.name)
+
+            if (allReady) {
+                alert("All Ready Have in Add to Cart")
+            }
+            else {
+                DBSproductArray.push(DBSproductObj)
+                // add to cart container creat element 
+                let div = document.createElement("div")
+                div.className = "addToCart d-flex gap-2 align-items-center"
+                div.innerHTML = `
+                <div> <img
+                src="${DBSproductObj.img}"
+                alt=""></div>
+                <div>
+                <h5 class="addName">${DBSproductObj.name}</h5>
+                <span class="addCatergory">${DBSproductObj.catagory}</span>
+                <div class="d-flex justify-content-between">
+                <div class="d-flex gap-2 align-items-center">
+                <input class="addCount" type="number" value="${DBSproductObj.count}" min="1" max="5">
+                <div>
+                <button class="incress">+</button>
+                <button class="decress">-</button>
+                </div>
+                </div>
+                <p class="addAmount" data-price = "${DBSproductObj.rate}">${DBSproductObj.rate}</p>
+                </div>
+                <i class="addRemove fa-solid fa-trash" style="color: #ff0000;"></i>
+                </div>`
+                addToCartContainer.append(div)
+
+                // total amount
+                let cartAmounts = document.querySelectorAll(".addToCartContainer .addAmount")
+                let totalAmt = 0
+                cartAmounts.forEach((cartAmt) => {
+                    let amount = cartAmt.innerHTML.replace("₹", "")
+                    totalAmt += parseInt(amount)
+                })
+                let cartAmount = document.querySelector(".cartAmount")
+                cartAmount.innerHTML = `₹ ${totalAmt}`
+            }
+            localStorage.setItem("addToCart", JSON.stringify(DBSproductArray))
+
+            let addTocartCount = document.querySelector("#addTocartCount")
+            let addTocartLength = JSON.parse(localStorage.getItem("addToCart")).length
+            addTocartCount.innerHTML = Number(addTocartLength)
+
+        }
 
     })
 
@@ -955,11 +1081,11 @@ addToCartinContainer()
 function localStorageAddToCart() {
     let localStorageAddToCartArr = JSON.parse(localStorage.getItem("addToCart")) || []
     DBSproductArray = localStorageAddToCartArr;
-    console.log(DBSproductArray);
+    // console.log(DBSproductArray);
 
     localStorageAddToCartArr.forEach((addToCartArr) => {
         let addToCartTotal = addToCartArr.count * addToCartArr.rate.replace("₹", "")
-        console.log(addToCartTotal);
+        // console.log(addToCartTotal);
 
         let div = document.createElement("div")
         div.className = "addToCart d-flex gap-2 align-items-center"
