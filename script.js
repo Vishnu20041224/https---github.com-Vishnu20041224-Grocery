@@ -844,7 +844,7 @@ function addToCartinContainer() {
                 <span class="addCatergory">${DBSproductObj.catagory}</span>
                 <div class="d-flex justify-content-between">
                 <div class="d-flex gap-2 align-items-center">
-                <input class="addCount" type="number" value="${DBSproductObj.count}" min="1" max="5">
+                <input class="addCount" type="text" value="${DBSproductObj.count}" min="1" max="5">
                 <div>
                 <button class="incress">+</button>
                 <button class="decress">-</button>

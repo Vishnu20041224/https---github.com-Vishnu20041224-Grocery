@@ -261,8 +261,9 @@ nav {
 }
 
 .addCount {
-    width: 45px;
+    width: 35px;
     height: 22px;
+    text-align: center;
 }
 
 .incress,
